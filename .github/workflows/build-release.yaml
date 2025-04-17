@@ -44,5 +44,6 @@ jobs:
           ## Installation
           - Download the .exe file
           - Run as administrator (required for shutdown functionality)
+          - yay, that's it!
         draft: false
         prerelease: false
