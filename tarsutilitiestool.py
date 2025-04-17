@@ -110,6 +110,38 @@ def print_banner():
     # Add consistent spacing after banner
     console.print()
 
+def check_for_updates():
+    """Check for updates to the application on GitHub"""
+    current_version = "1.0.0"  # Store this somewhere in your app
+    
+    try:
+        repo = "YourUsername/Tars-Utilities-Tool"
+        api_url = f"https://api.github.com/repos/{repo}/releases/latest"
+        
+        with urllib.request.urlopen(api_url) as response:
+            data = json.loads(response.read().decode('utf-8'))
+            latest_version = data['tag_name'].lstrip('v')
+            
+            if latest_version > current_version:
+                download_url = None
+                for asset in data['assets']:
+                    if asset['name'] == 'TarsUtilitiesTool.exe':
+                        download_url = asset['browser_download_url']
+                        break
+                
+                if download_url:
+                    return {
+                        'update_available': True,
+                        'current_version': current_version,
+                        'latest_version': latest_version,
+                        'download_url': download_url,
+                        'release_notes': data['body']
+                    }
+    except Exception as e:
+        console.print(f"[yellow]Error checking for updates: {str(e)}[/yellow]")
+    
+    return {'update_available': False}    
+
 def get_key():
     """Get a keypress from the user, cross-platform."""
     if os.name == 'nt':  # Windows
