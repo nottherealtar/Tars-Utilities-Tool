@@ -6,6 +6,9 @@ on:
       - 'v*' # This will trigger the workflow when you push a tag starting with 'v'
   workflow_dispatch: # This allows manual triggering from the GitHub UI
 
+permissions:
+  contents: write # This is needed to create releases
+
 jobs:
   build:
     runs-on: windows-latest # Using Windows since your tool uses Windows-specific features
@@ -27,15 +30,22 @@ jobs:
         
     - name: Build executable
       run: |
-        pyinstaller --onefile --icon=resources/logoico.ico --name="TARS Utilities" tarsutilitiestool.py
+        pyinstaller --onefile --icon=resources/logoico.ico --name="TARS-Utilities" tarsutilitiestool.py
+        
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: TARS-Utilities
+        path: dist/TARS-Utilities.exe
         
     - name: Create Release
       id: create_release
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        files: |
-          dist/TARS Utilities.exe
+        files: dist/TARS-Utilities.exe
         body: |
           # TARS Utilities Tool Release
           
