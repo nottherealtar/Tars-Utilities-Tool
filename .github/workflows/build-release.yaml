@@ -27,7 +27,7 @@ jobs:
         
     - name: Build executable
       run: |
-        pyinstaller --onefile --icon=resources/icon.ico --name="TARS Utilities" tarsutilitiestool.py
+        pyinstaller --onefile --icon=resources/logoico.ico --name="TARS Utilities" tarsutilitiestool.py
         
     - name: Create Release
       id: create_release
