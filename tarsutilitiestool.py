@@ -112,7 +112,7 @@ def print_banner():
 
 def check_for_updates():
     """Check for updates to the application on GitHub"""
-    current_version = "1.0.0"  # Store this somewhere in your app
+    current_version = "1.0.0"  # Store this somewhere in your app yehah.
     
     try:
         repo = "YourUsername/Tars-Utilities-Tool"
